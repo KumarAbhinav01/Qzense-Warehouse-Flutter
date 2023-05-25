@@ -76,14 +76,6 @@ class APIService {
       if (kDebugMode) {
         print('Login Response Body: ${response.body}');
       }
-      final session = response.headers['set-cookie'];
-      if (session != null) {
-        final sessionId = session.split(';').first;
-        APIService.sessionId = sessionId;
-        if (kDebugMode) {
-          print('Session ID: $sessionId');
-        }
-      }
       return response;
     }).catchError((error) {
       if (kDebugMode) {
@@ -92,23 +84,6 @@ class APIService {
       throw error;
     });
   }
-
-  static Future<Map<String, dynamic>> uploadFile(String filePath) async {
-    var url = Uri.parse('http://43.205.91.117:8000/api/text_rekognition/');
-    var request = http.MultipartRequest('POST', url);
-
-    var file = await http.MultipartFile.fromPath('picture', filePath);
-    request.files.add(file);
-
-    var response = await request.send();
-    var responseJson = await response.stream.bytesToString();
-
-    if (kDebugMode) {
-      print(responseJson);
-    }
-    return json.decode(responseJson);
-  }
-
 }
 
 

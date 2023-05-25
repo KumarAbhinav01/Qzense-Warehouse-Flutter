@@ -8,6 +8,17 @@
 	<string>Qzense Warehouse</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs access to your photo library to allow you to select and upload images for truck data collection.</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs access to your camera to allow you to take and upload photos for truck data collection.</string>
+
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app needs access to your microphone to allow you to record and upload videos for truck data collection.</string>
+
+
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

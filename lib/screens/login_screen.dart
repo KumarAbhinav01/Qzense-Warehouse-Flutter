@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:qzense_warehouse/screens/registration_screen.dart';
 import '../services/api_service.dart';
 import '../utils/validation.dart';
-import 'WelcomeScreen.dart';
+import 'welcome_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String accessToken = '';
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -25,9 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((response) {
         if (response.statusCode == 200) {
           // Login successful, handle the response
+          final jsonResponse = json.decode(response.body);
+          accessToken = jsonResponse['token']['access'];
+
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => WelcomeScreen()),
+            MaterialPageRoute(
+                builder: (context) => WelcomeScreen(
+                  title: 'Fish Data Collection',
+                  accessToken: accessToken,
+            )),
           );
         } else {
           // Handle error case

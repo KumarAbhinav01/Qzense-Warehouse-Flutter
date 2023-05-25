@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Your App',
+      title: 'Qzense Warehouse',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
