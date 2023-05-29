@@ -53,6 +53,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         title: const Text('Registration'),
       ),
@@ -61,7 +63,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset('assets/logo.jpg', width: MediaQuery.of(context).size.width * 0.7,),
+              const SizedBox(height: 20),
               TextFormField(
                 validator: (value) {
                   return Validation.validateFirstName(value);
@@ -143,8 +148,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: const Text('Submit'),
               ),
               const SizedBox(height: 16),
+
               GestureDetector(
-                onTap: _navigateToLoginScreen,
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 child: const Text(
                   'Already have an Account? Login Now',
                   style: TextStyle(

@@ -1,116 +1,3 @@
-// import 'dart:convert';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:file_picker/file_picker.dart';
-// import 'package:http/http.dart' as http;
-//
-// class WelcomeScreen extends StatelessWidget {
-//   const WelcomeScreen({super.key});
-//
-//   Future<Map<String, dynamic>> uploadFile(String filePath) async {
-//     var url = Uri.parse('http://43.205.91.117:8000/api/text_rekognition/');
-//     var request = http.MultipartRequest('POST', url);
-//
-//     var file = await http.MultipartFile.fromPath('picture', filePath);
-//     request.files.add(file);
-//
-//     var response = await request.send();
-//     var responseJson = await response.stream.bytesToString();
-//
-//     return json.decode(responseJson);
-//   }
-//
-//   void handleUploadButtonPressed(BuildContext context) async {
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       String? filePath = result.files.single.path;
-//
-//       if (filePath != null) {
-//         var data = await uploadFile(filePath);
-//         // Handle the response data as needed
-//         if (kDebugMode) {
-//           print('Data : $data');
-//         }
-//       }
-//     }
-//   }
-//
-//   void handleNextButtonPressed(BuildContext context) {
-//     // Handle the "Next" button click
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Container(
-//           constraints: const BoxConstraints(maxWidth: 430),
-//           padding: const EdgeInsets.all(34),
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(6),
-//             boxShadow: const [
-//               BoxShadow(
-//                 color: Color.fromRGBO(11, 54, 105, 0.2),
-//                 blurRadius: 10,
-//                 offset: Offset(0, 5),
-//               ),
-//             ],
-//             color: Colors.white,
-//           ),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Image.network(
-//                 'https://mybucketwarehouse.s3.ap-south-1.amazonaws.com/logo.jpg',
-//                 width: MediaQuery.of(context).size.width * 0.7,
-//               ),
-//               const SizedBox(height: 20),
-//               const Text(
-//                 'Welcome to qZense Labs',
-//                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-//                 textAlign: TextAlign.center,
-//               ),
-//               const SizedBox(height: 20),
-//               const Text(
-//                 'To continue, please proceed by clicking a picture of the Truck.',
-//                 style: TextStyle(fontSize: 16),
-//                 textAlign: TextAlign.center,
-//               ),
-//               const SizedBox(height: 20),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   handleUploadButtonPressed(context);
-//                 },
-//                 style: ElevatedButton.styleFrom(
-//                   foregroundColor: Colors.white,
-//                   backgroundColor: const Color(0xFF16505C),
-//                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 32),
-//                   textStyle: const TextStyle(fontSize: 16),
-//                 ),
-//                 child: const Text('Upload'),
-//               ),
-//               const SizedBox(height: 20),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   handleNextButtonPressed(context);
-//                 },
-//                 style: ElevatedButton.styleFrom(
-//                   foregroundColor: Colors.white,
-//                   backgroundColor: const Color(0xFF16505C),
-//                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 32),
-//                   textStyle: const TextStyle(fontSize: 16),
-//                 ),
-//                 child: const Text('Next'),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -309,14 +196,32 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
 
               const SizedBox(height: 10.0),
-
               if (_showTruckNumber) ...[
-                // Show truck number
-                Row(
-                  children: [
-                    const Text("Truck Number:"),
-                    Text(truckNumber),
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  color: Colors.grey[200],
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Truck Number:",
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      const SizedBox(width: 5.0),
+                      Text(
+                        truckNumber,
+                        style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                MaterialButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/home');
+                  },
+                  color: const Color(0xFF27485D),
+                  child: const Text('Next',
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ],

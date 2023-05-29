@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qzense_warehouse/screens/registration_screen.dart';
 import '../services/api_service.dart';
@@ -30,6 +31,9 @@ class _LoginScreenState extends State<LoginScreen> {
           // Login successful, handle the response
           final jsonResponse = json.decode(response.body);
           accessToken = jsonResponse['token']['access'];
+          if (kDebugMode) {
+            print('accessToken : $accessToken');
+          }
 
           Navigator.push(
             context,
@@ -92,50 +96,75 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _emailController,
-                validator: (value) {
-                  return Validation.validateEmail(value);
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                ),
-              ),
-              TextFormField(
-                controller: _passwordController,
-                validator: (value) {
-                  return Validation.validatePassword(value);
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                ),
-                obscureText: true,
-              ),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Submit'),
-              ),
-              const SizedBox(height: 16),
-              GestureDetector(
-                onTap: _navigateToRegisterScreen,
-                child: const Text(
-                  'Dont have an Account? Register Now',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
+      backgroundColor: Colors.white,
+      // appBar: AppBar(
+      //   title: const Text('Login'),
+      // ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            height: 600,
+            margin: const EdgeInsets.symmetric(vertical: 100.0, horizontal: 20.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/logo.jpg', width: MediaQuery.of(context).size.width * 0.6,),
+                  const SizedBox(height: 40),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: TextFormField(
+                      validator: (value) {
+                        return Validation.validateEmail(value);
+                      },
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Email',
+                      ),
+                    ),
                   ),
-                ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: TextFormField(
+                      validator: (value) {
+                        return Validation.validatePassword(value);
+                      },
+                      obscureText: true,
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    child: const Text('Submit'),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                          'Does not have account?',
+                          style: TextStyle(fontSize: 14)),
+                      TextButton(
+                        onPressed: _navigateToRegisterScreen,
+                        child: const Text(
+                          'Sign in',
+                          style: TextStyle(fontSize: 20,
+                          color: Color(0xFF1D4565),
+                          decoration: TextDecoration.underline),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
