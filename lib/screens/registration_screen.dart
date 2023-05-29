@@ -67,81 +67,105 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             children: [
               Image.asset('assets/logo.jpg', width: MediaQuery.of(context).size.width * 0.7,),
               const SizedBox(height: 20),
-              TextFormField(
-                validator: (value) {
-                  return Validation.validateFirstName(value);
-                },
-                onSaved: (value) {
-                  _user.firstName = value!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'First Name',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  validator: (value) {
+                    return Validation.validateFirstName(value);
+                  },
+                  onSaved: (value) {
+                    _user.firstName = value!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'First Name',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              TextFormField(
-                controller: _lastNameController,
-                validator: (value) {
-                  return Validation.validateLastName(value);
-                },
-                onSaved: (value) {
-                  _user.lastName = value!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Last Name',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _lastNameController,
+                  validator: (value) {
+                    return Validation.validateLastName(value);
+                  },
+                  onSaved: (value) {
+                    _user.lastName = value!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Last Name',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              TextFormField(
-                controller: _emailController,
-                validator: (value) {
-                  return Validation.validateEmail(value);
-                },
-                onSaved: (value) {
-                  _user.email = value!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Email',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _emailController,
+                  validator: (value) {
+                    return Validation.validateEmail(value);
+                  },
+                  onSaved: (value) {
+                    _user.email = value!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              TextFormField(
-                controller: _phoneController,
-                validator: (value) {
-                  return Validation.validatePhoneNumber(value);
-                },
-                onSaved: (value) {
-                  _user.phoneNumber = value!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Phone Number',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _phoneController,
+                  validator: (value) {
+                    return Validation.validatePhoneNumber(value);
+                  },
+                  onSaved: (value) {
+                    _user.phoneNumber = value!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Number',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              TextFormField(
-                controller: _passwordController,
-                validator: (value) {
-                  return Validation.validatePassword(value);
-                },
-                onSaved: (value) {
-                  _user.password = value!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Password',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _passwordController,
+                  validator: (value) {
+                    return Validation.validatePassword(value);
+                  },
+                  onSaved: (value) {
+                    _user.password = value!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
+                  obscureText: true,
                 ),
-                obscureText: true,
               ),
-              TextFormField(
-                controller: _confirmPasswordController,
-                validator: (value) {
-                  return Validation.validateConfirmPassword(
-                    value,
-                    _passwordController.text,
-                  );
-                },
-                onSaved: (value) {
-                  _user.confirmPassword = value!;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Confirm Password',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _confirmPasswordController,
+                  validator: (value) {
+                    return Validation.validateConfirmPassword(
+                      value,
+                      _passwordController.text,
+                    );
+                  },
+                  onSaved: (value) {
+                    _user.confirmPassword = value!;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Confirm Password',
+                    border: OutlineInputBorder(),
+                  ),
+                  obscureText: true,
                 ),
-                obscureText: true,
               ),
               ElevatedButton(
                 onPressed: _submitForm,

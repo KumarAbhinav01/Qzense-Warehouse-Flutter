@@ -3,10 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
+
+final LocalStorage storage = LocalStorage('truckNumber');
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
+  
   Future<Map<String, dynamic>> uploadFile(String filePath) async {
     var url = Uri.parse('http://43.205.91.117:8000/api/text_rekognition/');
     var request = http.MultipartRequest('POST', url);
@@ -53,35 +56,55 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.network(
-                'https://mybucketwarehouse.s3.ap-south-1.amazonaws.com/logo.jpg',
-                width: MediaQuery.of(context).size.width * 0.7,
-              ),
-              const SizedBox(height: 20),
+              Image.asset('assets/logo.jpg', height: 70.0,),
+              const SizedBox(height: 40),
               const Text(
-                'Welcome to qZense Labs',
+                'Gate Reporting',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
+              Container(
+                margin: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(10.0),
+                color: const Color(0xFFB6DECC),
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Truck Number:",
+                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 5.0),
+                    Text(
+                      storage.getItem('truckNumber'),
+                      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20,),
               const Text(
-                'To continue, please proceed by clicking a picture of the Truck.',
-                style: TextStyle(fontSize: 16),
+                'Gate In Status',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  handleUploadButtonPressed(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF16505C),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 32),
-                  textStyle: const TextStyle(fontSize: 16),
+              Container(
+                margin: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(10.0),
+                color: const Color(0xFFB6DECC),
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Sent to TMS for approval",
+                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                child: const Text('Upload'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
