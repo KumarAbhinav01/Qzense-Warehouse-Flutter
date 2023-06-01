@@ -167,23 +167,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   obscureText: true,
                 ),
               ),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _submitForm,
                 child: const Text('Submit'),
               ),
-              const SizedBox(height: 16),
-
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                child: const Text(
-                  'Already have an Account? Login Now',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                      'Already have an Account?',
+                      style: TextStyle(fontSize: 14)),
+                  TextButton(
+                    onPressed: _navigateToLoginScreen,
+                    child: const Text(
+                      'Sign in',
+                      style: TextStyle(fontSize: 20,
+                          color: Color(0xFF1D4565),
+                          decoration: TextDecoration.underline),
+                    ),
+                  )
+                ],
               ),
             ],
           ),

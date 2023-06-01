@@ -157,8 +157,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Image.asset('assets/logo.jpg', width: 10.0, height: 70.0,),
-                  const SizedBox(height: 40),
-                  const SizedBox(height: 15.0),
+                  const SizedBox(height: 20),
                   const Text(
                     'Welcome to qZense Labs',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -170,7 +169,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   if (_image != null) ...[
                     // const SizedBox(height: 10.0),
                     Image.file(
@@ -188,40 +187,82 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     children: [
                       Flexible(
                         flex: 1,
-                        child: MaterialButton(
-                          height: 50,
-                          color: const Color(0xFF27485D),
-                          onPressed: pickImageFromCamera,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.camera_alt, color: Colors.white),
-                              SizedBox(width: 8),
-                              Text('Take Photo',
-                                  style: TextStyle(color: Colors.white)),
-                            ],
+                        child: GestureDetector(
+                          onTap: pickImageFromCamera,
+                          child: Container(
+                            width: 200,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: const Color(0xFFB6DECC),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.camera_alt, color: Colors.black),
+                                SizedBox(width: 8),
+                                Text('Take Photo',
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              ],
+                            ),
                           ),
                         ),
+
+                        // MaterialButton(
+                        //   height: 50,
+                        //   color: const Color(0xFF27485D),
+                        //   onPressed: pickImageFromCamera,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: const [
+                        //       Icon(Icons.camera_alt, color: Colors.white),
+                        //       SizedBox(width: 8),
+                        //       Text('Take Photo',
+                        //           style: TextStyle(color: Colors.white)),
+                        //     ],
+                        //   ),
+                        // ),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
                       Flexible(
                         flex: 1,
-                        child: MaterialButton(
-                          height: 50,
-                          color: const Color(0xFF27485D),
-                          onPressed: pickImage,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.photo_library, color: Colors.white),
-                              SizedBox(width: 8),
-                              Text('Upload Image',
-                                  style: TextStyle(color: Colors.white)),
-                            ],
+                        child: GestureDetector(
+                          onTap: pickImage,
+                          child: Container(
+                            width: 200,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: const Color(0xFFB6DECC),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.photo_library, color: Colors.black),
+                                SizedBox(width: 8),
+                                Text('Upload Image',
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              ],
+                            ),
                           ),
                         ),
+
+                        // MaterialButton(
+                        //   height: 50,
+                        //   color: const Color(0xFF27485D),
+                        //   onPressed: pickImage,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: const [
+                        //       Icon(Icons.photo_library, color: Colors.white),
+                        //       SizedBox(width: 8),
+                        //       Text('Upload Image',
+                        //           style: TextStyle(color: Colors.white)),
+                        //     ],
+                        //   ),
+                        // ),
                       ),
                     ],
                   ),
@@ -229,12 +270,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   const SizedBox(height: 10.0),
                   if (_image != null) ...[
                     // const SizedBox(height: 10.0),
-                    MaterialButton(
-                      onPressed: getTruckNumber,
-                      color: const Color(0xFF27485D),
-                      child: const Text('Get Truck Number',
-                          style: TextStyle(color: Colors.white)),
+
+                    GestureDetector(
+                      onTap: getTruckNumber,
+                      child: Container(
+                        width: 200,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color(0xFFB6DECC),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Get Truck Number',
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
                     ),
+                    const SizedBox(height: 25.0),
+
+                    // MaterialButton(
+                    //   onPressed: getTruckNumber,
+                    //   color: const Color(0xFF27485D),
+                    //   child: const Text('Get Truck Number',
+                    //       style: TextStyle(color: Colors.white)),
+                    // ),
                   ],
 
                   if (showLoading) ...[
@@ -260,13 +322,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/home');
-                        },
-                        color: const Color(0xFF27485D),
-                        child: const Text('Next',
-                            style: TextStyle(color: Colors.white)),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 120.0),
+                        child: MaterialButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/home');
+                          },
+                          color: const Color(0xFF16505C),
+                          child: const Text('Next',
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ],
                 ],

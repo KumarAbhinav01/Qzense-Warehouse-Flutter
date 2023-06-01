@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: _submitForm,
-                    child: const Text('Submit'),
+                    child: const Text('Login'),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextButton(
                         onPressed: _navigateToRegisterScreen,
                         child: const Text(
-                          'Sign in',
+                          'Sign Up',
                           style: TextStyle(fontSize: 20,
                           color: Color(0xFF1D4565),
                           decoration: TextDecoration.underline),

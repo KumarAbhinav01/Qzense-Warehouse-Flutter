@@ -9,7 +9,29 @@ final LocalStorage storage = LocalStorage('truckNumber');
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-  
+
+  Future getTruckNumbers() async {
+    try{
+      var headers = {
+        'Accept': 'application/json'
+      };
+      var request = http.MultipartRequest('GET', Uri.parse('http://65.0.56.125:8000/api/trucks_inside/'));
+      request.headers.addAll(headers);
+      http.Response response = await http.Response.fromStream(await request.send());
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        String responseBody = response.body;
+        if (kDebugMode) {
+          print(responseBody);
+        }
+      }
+    } catch (e){
+      debugPrint('error Message is ${e.toString()}');
+    } finally{
+      debugPrint('API');
+    }
+  }
+
   Future<Map<String, dynamic>> uploadFile(String filePath) async {
     var url = Uri.parse('http://43.205.91.117:8000/api/text_rekognition/');
     var request = http.MultipartRequest('POST', url);
@@ -108,8 +130,9 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  handleNextButtonPressed(context);
+                onPressed: (){
+                  getTruckNumbers();
+                  Navigator.pushNamed(context, '/screen2');
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
