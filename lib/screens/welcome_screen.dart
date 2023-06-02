@@ -240,26 +240,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                   const SizedBox(height: 10.0),
                   if (_image != null) ...[
-                    // const SizedBox(height: 10.0),
-
-                    // GestureDetector(
-                    //   onTap: retrieveTruckNumber,
-                    //   child: Container(
-                    //     width: 200,
-                    //     height: 50,
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(50),
-                    //       color: const Color(0xFFB6DECC),
-                    //     ),
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: const [
-                    //         Text('Get Truck Number',
-                    //             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(height: 25.0),
                   ],
 

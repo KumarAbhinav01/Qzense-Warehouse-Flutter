@@ -73,7 +73,7 @@ class SelectionPage extends StatelessWidget {
                 height: 70,
                 minWidth: 180,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/loadinglast');
+                  Navigator.pushNamed(context, '/loading-last');
                 },
                 color: const Color(0xFF27485D),
                 child:

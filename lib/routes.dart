@@ -15,5 +15,5 @@ final Map<String, WidgetBuilder> routes = {
   '/register': (BuildContext context) => const RegistrationScreen(),
   '/screen2': (BuildContext context) => const TruckInside(),
   '/selection': (BuildContext context) => const SelectionPage(),
-  '/loadinglast': (BuildContext context) => const LoadingLastPage(),
+  '/loading-last': (BuildContext context) => const LoadingLastPage(),
 };
