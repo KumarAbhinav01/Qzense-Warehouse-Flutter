@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
+import '../screens/gate_reporting.dart';
 import '../services/api_service.dart';
 import '../utils/validation.dart';
 

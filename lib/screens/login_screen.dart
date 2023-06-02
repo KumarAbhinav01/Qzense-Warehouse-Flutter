@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:qzense_warehouse/screens/registration_screen.dart';
 import '../services/api_service.dart';
 import '../utils/validation.dart';
@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String accessToken = '';
+  final LocalStorage storage = LocalStorage('accessToken');
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // Login successful, handle the response
           final jsonResponse = json.decode(response.body);
           accessToken = jsonResponse['token']['access'];
+          storage.setItem('accessToken', accessToken);
           if (kDebugMode) {
             print('accessToken : $accessToken');
           }
@@ -95,13 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   title: const Text('Login'),
-      // ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
           child: Container(
             height: 600,
             margin: const EdgeInsets.symmetric(vertical: 100.0, horizontal: 20.0),

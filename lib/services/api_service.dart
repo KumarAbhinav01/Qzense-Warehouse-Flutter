@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
   static String? sessionId;
@@ -63,27 +64,89 @@ class APIService {
     });
   }
 
-  static Future<http.Response> loginUser(String email, String password) {
+  static Future<http.Response> loginUser(String email, String password) async {
     const url = 'http://65.0.56.125:8000/api/user/login/';
     final body = {'email': email, 'password': password};
     if (kDebugMode) {
       print('Login Request Body: $body');
     }
-    return http.post(Uri.parse(url), body: body).then((response) {
+
+    try {
+      http.Response response = await http.post(Uri.parse(url), body: body);
       if (kDebugMode) {
         print('Login Response: ${response.statusCode}');
-      }
-      if (kDebugMode) {
         print('Login Response Body: ${response.body}');
       }
+
+      // Store the access token in local storage
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final accessToken = jsonResponse['token']['access'];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access_token', accessToken);
+      }
+
       return response;
-    }).catchError((error) {
+    } catch (error) {
       if (kDebugMode) {
         print('Login Error: $error');
       }
-      throw error;
-    });
+      rethrow;
+    }
   }
+
+  static Future<String?> getTruckNumber(String imagePath) async {
+    try {
+      var headers = {'Accept': 'application/json'};
+      var request = http.MultipartRequest('POST', Uri.parse('http://65.0.56.125:8000/api/text_rekognition/'));
+      request.files.add(await http.MultipartFile.fromPath('picture', imagePath));
+      request.headers.addAll(headers);
+
+      http.Response response = await http.Response.fromStream(await request.send());
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        String responseBody = response.body;
+        if (kDebugMode) {
+          print(responseBody); // {"text":"RJ.09GA.0165"}
+
+          Map<String, dynamic> jsonResponse = jsonDecode(responseBody);
+          String truckNumber = jsonResponse['text'];
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('truckNumber', truckNumber);
+          return truckNumber;
+        }
+      }
+    } catch (e) {
+      debugPrint('Error Message: ${e.toString()}');
+    }
+    return null;
+  }
+
+
+  static Future<http.Response> getTrucksInside() async {
+    const url = 'http://65.0.56.125:8000/api/show_truck';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('access_token');
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $accessToken'
+    };
+    var request = http.Request('GET', Uri.parse(url));
+    request.headers.addAll(headers);
+    try {
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        String responseBody = await response.stream.bytesToString();
+        return http.Response(responseBody, response.statusCode);
+      } else {
+        return http.Response('', response.statusCode);
+      }
+    } catch (error) {
+      rethrow;
+    }
+  }
+
 }
 
 

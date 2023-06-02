@@ -1,13 +1,11 @@
-import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 
-import '../widget/loadingIndicator.dart';
+import '../services/api_service.dart';
+import '../widget/loading_indicator.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key, required this.title, required this.accessToken})
@@ -23,7 +21,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   XFile? _image;
   final picker = ImagePicker();
-  static String truckNumber = '';
+  static String theTruckNumber = '';
   late bool _showTruckNumber = false;
   final LocalStorage storage = LocalStorage('truckNumber');
   bool showLoading = false;
@@ -33,6 +31,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     setState(() {
       if (pickedFile != null) {
         _image = XFile(pickedFile.path);
+        retrieveTruckNumber();
       } else {
         // print('No image selected.');
       }
@@ -44,6 +43,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     setState(() {
       if (pickedFile != null) {
         _image = XFile(pickedFile.path);
+        retrieveTruckNumber();
+
       } else {
         if (kDebugMode) {
           print('No image selected.');
@@ -92,46 +93,31 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  Future getTruckNumber() async {
-    try{
-      setState(() {
-        showLoading = true;
-      });
-      // Validate required fields
-      if (_image == null) {
-        // Error dialog
-        return;
+  void retrieveTruckNumber() async {
+    setState(() {
+      showLoading = true;
+    });
+
+    try {
+      String? truckNumber = await APIService.getTruckNumber(_image!.path);
+      if (truckNumber != null) {
+        setState(() {
+          // Update the UI with the retrieved truck number
+          _showTruckNumber = true;
+          theTruckNumber = truckNumber;
+          storage.setItem('truckNumber', truckNumber);
+        });
       }
-
-      var headers = {
-        'Accept': 'application/json'
-      };
-      var request = http.MultipartRequest('POST', Uri.parse('http://65.0.56.125:8000/api/text_rekognition/'));
-      request.files.add(await http.MultipartFile.fromPath('picture', _image!.path));
-      request.headers.addAll(headers);
-      http.Response response = await http.Response.fromStream(await request.send());
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        String responseBody = response.body;
-        if (kDebugMode) {
-          print(responseBody); // {"text":"RJ.09GA.0165"}
-
-          setState(() {
-            Map<String, dynamic> jsonResponse = jsonDecode(responseBody);
-            truckNumber = jsonResponse['text'];
-            storage.setItem('truckNumber', truckNumber);
-            _showTruckNumber = true;
-          });
-        }
-      }
-    } catch (e){
-      debugPrint('error Message is ${e.toString()}');
-    } finally{
+    } catch (e) {
+      debugPrint('Error: $e');
+      // Handle error
+    } finally {
       setState(() {
         showLoading = false;
       });
     }
   }
+
 
 
   @override
@@ -207,21 +193,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                           ),
                         ),
-
-                        // MaterialButton(
-                        //   height: 50,
-                        //   color: const Color(0xFF27485D),
-                        //   onPressed: pickImageFromCamera,
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: const [
-                        //       Icon(Icons.camera_alt, color: Colors.white),
-                        //       SizedBox(width: 8),
-                        //       Text('Take Photo',
-                        //           style: TextStyle(color: Colors.white)),
-                        //     ],
-                        //   ),
-                        // ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -271,37 +242,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   if (_image != null) ...[
                     // const SizedBox(height: 10.0),
 
-                    GestureDetector(
-                      onTap: getTruckNumber,
-                      child: Container(
-                        width: 200,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: const Color(0xFFB6DECC),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text('Get Truck Number',
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 25.0),
-
-                    // MaterialButton(
-                    //   onPressed: getTruckNumber,
-                    //   color: const Color(0xFF27485D),
-                    //   child: const Text('Get Truck Number',
-                    //       style: TextStyle(color: Colors.white)),
+                    // GestureDetector(
+                    //   onTap: retrieveTruckNumber,
+                    //   child: Container(
+                    //     width: 200,
+                    //     height: 50,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(50),
+                    //       color: const Color(0xFFB6DECC),
+                    //     ),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: const [
+                    //         Text('Get Truck Number',
+                    //             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                    //       ],
+                    //     ),
+                    //   ),
                     // ),
+                    const SizedBox(height: 25.0),
                   ],
 
                   if (showLoading) ...[
                     // Show the loading indicator
-                    LodingInd(),
+                    const LodingInd(),
                   ] else
                     if (_showTruckNumber) ...[
                       Container(
@@ -315,13 +279,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                             const SizedBox(width: 5.0),
                             Text(
-                              truckNumber,
+                              theTruckNumber,
                               style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 20.0),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 120.0),

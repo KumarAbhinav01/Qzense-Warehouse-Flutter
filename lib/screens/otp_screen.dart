@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../utils/validation.dart';
-import 'home_screen.dart';
+import 'gate_reporting.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({Key? key}) : super(key: key);
@@ -57,10 +57,10 @@ class _OTPScreenState extends State<OTPScreen> {
                   // Save OTP value if needed
                 },
               ),
-              ElevatedButton(
+              const ElevatedButton(
                 onPressed: null,
                 // onPressed: _submitOTP,
-                child: const Text('Verify'),
+                child: Text('Verify'),
               ),
             ],
           ),

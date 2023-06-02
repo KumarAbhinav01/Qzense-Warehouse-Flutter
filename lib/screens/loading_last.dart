@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
-final LocalStorage storage = LocalStorage('truckNumber');
+class LoadingLastPage extends StatefulWidget {
+  const LoadingLastPage({Key? key}) : super(key: key);
 
-class SelectionPage extends StatelessWidget {
-  const SelectionPage({super.key});
+  @override
+  State<LoadingLastPage> createState() => _LoadingLastPageState();
+}
+
+class _LoadingLastPageState extends State<LoadingLastPage> {
+
+  final LocalStorage storage = LocalStorage('truckNumber');
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,13 @@ class SelectionPage extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               const Text(
-                'Choose Action',
+                'Loading Complete\n'
+                    'Thank you for sharing picture with consignment',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const Text(
+                '\n Exit Details ',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -40,7 +52,7 @@ class SelectionPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Truck Number:",
+                      " Truck Number:",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -56,28 +68,6 @@ class SelectionPage extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 40),
-              MaterialButton(
-                height: 70,
-                minWidth: 180,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/screen2');
-                },
-                color: const Color(0xFF27485D),
-                child: const Text('Unloading',
-                    style: TextStyle(color: Colors.white, fontSize: 25)),
-              ),
-              const SizedBox(height: 40),
-              MaterialButton(
-                height: 70,
-                minWidth: 180,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/loadinglast');
-                },
-                color: const Color(0xFF27485D),
-                child:
-                const Text('Loading', style: TextStyle(color: Colors.white, fontSize: 25)),
               ),
             ],
           ),

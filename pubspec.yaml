@@ -39,6 +39,7 @@ dependencies:
   file_picker: ^5.3.1
   image_picker: ^0.8.4+4
   localstorage: ^4.0.1+2
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:

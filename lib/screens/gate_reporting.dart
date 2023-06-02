@@ -1,80 +1,28 @@
-import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 
 final LocalStorage storage = LocalStorage('truckNumber');
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-  Future getTruckNumbers() async {
-    try{
-      var headers = {
-        'Accept': 'application/json'
-      };
-      var request = http.MultipartRequest('GET', Uri.parse('http://65.0.56.125:8000/api/trucks_inside/'));
-      request.headers.addAll(headers);
-      http.Response response = await http.Response.fromStream(await request.send());
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        String responseBody = response.body;
-        if (kDebugMode) {
-          print(responseBody);
-        }
-      }
-    } catch (e){
-      debugPrint('error Message is ${e.toString()}');
-    } finally{
-      debugPrint('API');
-    }
-  }
-
-  Future<Map<String, dynamic>> uploadFile(String filePath) async {
-    var url = Uri.parse('http://43.205.91.117:8000/api/text_rekognition/');
-    var request = http.MultipartRequest('POST', url);
-
-    var file = await http.MultipartFile.fromPath('picture', filePath);
-    request.files.add(file);
-
-    var response = await request.send();
-    var responseJson = await response.stream.bytesToString();
-
-    return json.decode(responseJson);
-  }
-
-  void handleUploadButtonPressed(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      String? filePath = result.files.single.path;
-
-      if (filePath != null) {
-        var data = await uploadFile(filePath);
-        // Handle the response data as needed
-        if (kDebugMode) {
-          print('Data : $data');
-        }
-      }
-    }
-  }
-
-  void handleNextButtonPressed(BuildContext context) {
-    // Handle the "Next" button click
-  }
+class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background.png'),
-            fit: BoxFit.cover,
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/background.png'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -131,14 +79,13 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: (){
-                  getTruckNumbers();
                   Navigator.pushNamed(context, '/screen2');
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: const Color(0xFF16505C),
                   padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 32),
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 32),
                   textStyle: const TextStyle(fontSize: 16),
                 ),
                 child: const Text('Next'),
@@ -146,6 +93,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 }

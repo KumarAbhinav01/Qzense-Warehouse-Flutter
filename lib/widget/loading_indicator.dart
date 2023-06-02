@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class LodingInd extends StatefulWidget {
 
-  LodingInd({super.key});
+  const LodingInd({super.key});
 
   @override
   State<LodingInd> createState() => _LodingIndState();
