@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
   static String? sessionId;
+  static String? selectedTruckNumber;
 
   static Future<http.Response> registerUser(User user) {
     const url = 'http://65.0.56.125:8000/api/user/register/';
@@ -218,6 +219,7 @@ class APIService {
           String truckNumber = jsonResponse['text'];
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('truckNumber', truckNumber);
+          selectedTruckNumber = truckNumber;
           return truckNumber;
         }
       }

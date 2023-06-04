@@ -37,19 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 margin: const EdgeInsets.all(20.0),
                 padding: const EdgeInsets.all(10.0),
-                color: const Color(0xFFB6DECC),
+                color: const Color(0xFF16505C),
                 height: 70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
                       "Truck Number:",
-                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 5.0),
                     Text(
                       storage.getItem('truckNumber'),
-                      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -64,14 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 margin: const EdgeInsets.all(20.0),
                 padding: const EdgeInsets.all(10.0),
-                color: const Color(0xFFB6DECC),
+                color: const Color(0xFF16505C),
                 height: 70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Text(
                       "Sent to TMS for approval",
-                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

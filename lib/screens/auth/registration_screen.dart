@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/user.dart';
-import '../services/api_service.dart';
-import '../utils/validation.dart';
-import '../widgets/custom_dialog.dart';
+import '../../models/user.dart';
+import '../../services/api_service.dart';
+import '../../utils/validation.dart';
+import '../../widgets/otp_dialog.dart';
 import 'login_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {

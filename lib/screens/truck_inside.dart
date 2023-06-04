@@ -19,6 +19,8 @@ class _TruckInsideState extends State<TruckInside> {
 
   Future<void> getTruckNumbers() async {
     debugPrint("Get Truck Numbers Function");
+
+
     APIService.getTrucksInside().then((response) {
       if (response.statusCode == 200) {
         debugPrint('Total Trucks Inside: ${response.body}');

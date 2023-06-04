@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:qzense_warehouse/screens/registration_screen.dart';
-import '../services/api_service.dart';
-import '../utils/validation.dart';
-import 'welcome_screen.dart';
+import 'package:qzense_warehouse/screens/auth/registration_screen.dart';
+import '../../services/api_service.dart';
+import '../../utils/validation.dart';
+import '../welcome_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -40,10 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => WelcomeScreen(
-                  title: 'Fish Data Collection',
-                  accessToken: accessToken,
-            )),
+                builder: (context) => const WelcomeScreen()),
           );
         } else {
           // Handle error case
