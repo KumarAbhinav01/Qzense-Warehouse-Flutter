@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/gate_reporting.dart';
+import 'package:qzense_warehouse/screens/auth/login_screen.dart';
 import '../services/api_service.dart';
 import '../utils/validation.dart';
 
@@ -23,7 +23,7 @@ class _CustomDialogState extends State<CustomDialog> {
         if (response.statusCode == 200 || response.statusCode == 201) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
           );
         } else {
           // Handle OTP verification error case
